@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+application.properties
+imooc-muxin-netty.iml
+pom.xml
+target/
