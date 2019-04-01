@@ -4,8 +4,5 @@
 .idea/libraries/
 .idea/modules.xml
 .idea/workspace.xml
-application.properties
-imooc-muxin-netty.iml
-pom.xml
 target/
 
