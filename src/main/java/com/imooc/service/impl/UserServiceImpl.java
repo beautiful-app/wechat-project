@@ -1,9 +1,9 @@
 package com.imooc.service.impl;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.imooc.utils.*;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,6 @@ import com.imooc.pojo.Users;
 import com.imooc.pojo.vo.FriendRequestVO;
 import com.imooc.pojo.vo.MyFriendsVO;
 import com.imooc.service.UserService;
-import com.imooc.utils.FastDFSClient;
-import com.imooc.utils.FileUtils;
-import com.imooc.utils.JsonUtils;
-import com.imooc.utils.QRCodeUtils;
 
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -99,7 +95,7 @@ public class UserServiceImpl implements UserService {
 		String userId = sid.nextShort();
 		
 		// 为每个用户生成一个唯一的二维码
-		String qrCodePath = "C://user" + userId + "qrcode.png";
+		String qrCodePath = "D://user" + userId + "qrcode.png";
 		// muxin_qrcode:[username]
 		qrCodeUtils.createQRCode(qrCodePath, "muxin_qrcode:" + user.getUsername());
 		MultipartFile qrCodeFile = FileUtils.fileToMultipart(qrCodePath);
@@ -241,9 +237,22 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
-	public List<MyFriendsVO> queryMyFriends(String userId) {
+	public Map<String,List<MyFriendsVO>> queryMyFriends(String userId) {
 		List<MyFriendsVO> myFirends = usersMapperCustom.queryMyFriends(userId);
-		return myFirends;
+		//在这里开始进行分类处理
+		Map<String,List<MyFriendsVO>> friendSortMap = new HashMap<>();
+		for (MyFriendsVO myFriend : myFirends){
+			String firLetter = FirstCharUtil.first(myFriend.getFriendUsername());
+			if (friendSortMap.containsKey(firLetter)){
+				friendSortMap.get(firLetter).add(myFriend);
+			} else {
+				friendSortMap.put(firLetter, new ArrayList<>());
+				friendSortMap.get(firLetter).add(myFriend);
+			}
+		}
+
+
+		return friendSortMap;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

@@ -5,6 +5,7 @@ public class MyFriendsVO {
     private String friendUsername;
     private String friendFaceImage;
     private String friendNickname;
+
     
 	public String getFriendUserId() {
 		return friendUserId;

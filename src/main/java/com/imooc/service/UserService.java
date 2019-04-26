@@ -1,6 +1,7 @@
 package com.imooc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.imooc.netty.ChatMsg;
 import com.imooc.pojo.Users;
@@ -65,7 +66,7 @@ public interface UserService {
 	/**
 	 * @Description: 查询好友列表
 	 */
-	public List<MyFriendsVO> queryMyFriends(String userId);
+	public Map<String,List<MyFriendsVO>> queryMyFriends(String userId);
 	
 	/**
 	 * @Description: 保存聊天消息到数据库
